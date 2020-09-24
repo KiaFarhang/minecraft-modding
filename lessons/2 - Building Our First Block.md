@@ -1,6 +1,6 @@
 # Lesson 2 - Building Our First Block
 
-We're going to start adding our first piece of code to Minecraft: a custom block. It'll be a simple one - it won't have any texture or custom functionality yet - but creating it will teach us a lot about how Minecraft mods work. And in the next lesson we'll make our block more exciting :)
+We're going to start adding our first piece of code to Minecraft: a custom block. It'll be a simple one - it won't have any texture or custom functionality yet - but creating it will teach us a lot about how Minecraft mods work. And in the next lesson we'll actually add it to the game :)
 
 ## Creating a block class
 
