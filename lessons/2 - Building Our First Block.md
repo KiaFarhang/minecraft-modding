@@ -2,6 +2,8 @@
 
 We're going to start adding our first piece of code to Minecraft: a custom block. It'll be a simple one - it won't have any texture or custom functionality yet - but creating it will teach us a lot about how Minecraft mods work. And in the next lesson we'll actually add it to the game :)
 
+## Note: to get the project folder in the state it will be in at the end of this lesson, [visit this link.](https://github.com/KiaFarhang/minecraft-modding/tree/lesson-2/code) ##
+
 ## Creating a block class
 
 First we need to create a file to contain our custom block code. In Java, most code lives in _classes_. A [Java class](https://docs.oracle.com/javase/tutorial/java/concepts/class.html) is basically a blueprint for an object. We create _instances_ of classes that can have different properties.
