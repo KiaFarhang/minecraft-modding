@@ -2,7 +2,7 @@
 
 Before we start doing all the cool stuff we want in our mod, we need to name the mod and register it with Minecraft. We'll do that in two places - our `mods.toml` file (text) and our `ExampleMod.java` class (Java).
 
-##Note: to get the project folder in the state it will be in at the end of this lesson, [visit this link.](https://github.com/KiaFarhang/minecraft-modding/tree/lesson-1/code)##
+## Note: to get the project folder in the state it will be in at the end of this lesson, [visit this link.](https://github.com/KiaFarhang/minecraft-modding/tree/lesson-1/code) ##
 
 ## Updating mods.toml
 
