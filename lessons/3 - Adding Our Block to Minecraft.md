@@ -42,3 +42,112 @@ public class BasicBlockEventHandler {
 }
 ```
 
+There's a lot going on here, so let's take it step by step. After the imports and the beginning of the class, we have this:
+
+```java
+    private static BasicBlock basicBlock;
+    private static BlockItem basicBlockItem;
+```
+
+These are called _fields_ - they're objects that every `BasicBlockEventHandler` will have when we create one. The `static` in front of them means every handler will actually share the _same_ version of those objects. If that part sounds weird or complicated, don't worry - it's not something we need to know a great deal about right now.
+
+So what this code is saying is that the `BasicBlockEventHandler` has a `BasicBlock` (called `basicBlock`) and a `BlockItem` (called `basicBlockItem`). We know what the `BasicBlock` is - it's the class we just created. But what's a `BlockItem`?
+
+Well, you know how in Minecraft you have blocks out in the world, but then when you pick up a block it goes in your inventory? That second part is what a `BlockItem` is - it's the code for how the block works when it's in your inventory.
+
+Basically, this code just says "Hey, I'm going to use the BasicBlock and its item version when I insert it into Minecraft. I'm just declaring those variables now."
+
+Next there's this part:
+
+```java
+    static {
+        basicBlock = new BasicBlock();
+        basicBlock.setRegistryName("dojomod", "basic_block");
+    }
+```
+
+This is more setup code. Code in a `static` block runs once, when Java first boots up. (So in our case, when Minecraft loads our mod) Here we just create a `BasicBlock` and assign it to our variable, then we set our block's _registry name_. We pass two arguments: the ID of our mod, and the name we're going to use to reference this block. So in your code, you'll want to replace `dojomod` with whatever ID you gave your mod. You can feel free to change the name of the second argument to something other than `basic_block` too - just remember what you choose, because we'll use it later.
+
+## Making our event handler do stuff
+
+Okay, so we have an event handler class that we can use to hook into Minecraft and add our custom block. Now, let's add code to do that!
+
+First, we're going to add code that will run when Minecraft registers all the blocks in the game. We're going to have our code say "Hey, Minecraft, by the way - add this custom block I created to the game."
+
+Here's what that code looks like. You'll want to add it right after your `static` block:
+
+```java
+    @SubscribeEvent
+    public static void onBlocksRegistration(RegistryEvent.Register<Block> blockRegisterEvent) {
+    	blockRegisterEvent.getRegistry().register(basicBlock);
+    }
+```
+
+Okay - this looks scary, but let's take it piece by piece.
+
+`@SubscribeEvent`
+
+This is a Java _annotation_. It's something you can put on your code to give it new properties. The Minecraft Forge `@SubscribeEvent` annotation lets you tell Forge, "Hey, this code I'm annotating - I want it to subscribe to a Minecraft event, so it'll run when that event happens."
+
+In our case, we're annotating our method so it can listen to the event when Minecraft registers every block in the game. That's the next part:
+
+```java
+    public static void onBlocksRegistration(RegistryEvent.Register<Block> blockRegisterEvent) {
+    	blockRegisterEvent.getRegistry().register(basicBlock);
+    }
+```
+
+This is our code that actually runs when the block registration happens. It's a _method_, which is just a fancy way of saying a piece of code you can call. (Methods are somewhat like functions, if you've worked with those in other programming languages).
+
+The method takes one parameter - the event that's happening to register all blocks in the game - and it just additionally registers our custom block. That's this line:
+
+```java
+    	blockRegisterEvent.getRegistry().register(basicBlock);
+```
+
+Okay, now when Minecraft registers all the blocks in the game, our mod will kick in and register our custom one as well. Next, we need to put the block in the player's inventory:
+
+```java
+    @SubscribeEvent
+    public static void onItemsRegistration(RegistryEvent.Register<Item> itemRegisterEvent) {
+    	int MAX_STACK_SIZE = 20;
+    	
+    	Item.Properties itemProperties = new Item.Properties()
+    										.maxStackSize(MAX_STACK_SIZE)
+    										.group(ItemGroup.BUILDING_BLOCKS);
+    	basicBlockItem = new BlockItem(basicBlock, itemProperties);
+    	basicBlockItem.setRegistryName(basicBlock.getRegistryName());
+    	itemRegisterEvent.getRegistry().register(basicBlockItem);
+    }
+```
+
+This is another piece of code that runs when an event triggers in the game. This time, the event is when Minecraft is registering all the _items_ instead of all the blocks.
+
+The first few lines are actually similar to when we created our `BasicBlock` earlier. When we create a `BlockItem`, we have to pass it a `Block` and some `Properties` for the item. So we create those properties first:
+
+```java
+    	int MAX_STACK_SIZE = 20;
+    	
+    	Item.Properties itemProperties = new Item.Properties()
+    										.maxStackSize(MAX_STACK_SIZE) // how many of the item you can hold in a single stack
+    										.group(ItemGroup.BUILDING_BLOCKS); // where to group the item in the player's inventory
+```
+
+Then we create the `BlockItem`:
+
+```java
+    	basicBlockItem = new BlockItem(basicBlock, itemProperties);
+```
+
+Then we need to set the item's registry name, just like we did with the block earlier. But since the block already has a registry name, we can just use the one we created before:
+
+```java
+    	basicBlockItem.setRegistryName(basicBlock.getRegistryName());
+```
+
+Finally, just like with our block event code, we need to actually register our block item with the other items in the game:
+
+```java
+    	itemRegisterEvent.getRegistry().register(basicBlockItem);
+```
+
