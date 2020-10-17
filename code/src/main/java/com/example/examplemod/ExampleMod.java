@@ -35,6 +35,8 @@ public class ExampleMod
         // Register the doClientStuff method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
+        // Register our block event handler
+        FMLJavaModLoadingContext.get().getModEventBus().register(BasicBlockEventHandler.class);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }

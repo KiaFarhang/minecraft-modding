@@ -2,6 +2,8 @@
 
 In lesson 2 we created a really simple block class and learned a little bit about Java classes along the way. But right now our block class is just sitting in our project - it's not actually in our Minecraft game yet. This lesson will walk through registering the block with Minecraft so it's in our creative world inventory when we start the game.
 
+## Note: to get the project folder in the state it will be in at the end of this lesson, [visit this link.](https://github.com/KiaFarhang/minecraft-modding/tree/lesson-3/code) ##
+
 ## The Minecraft event system
 
 Minecraft (and lots of other games, and lots of other software) works on an _event system_. When you boot the game up, and while you're playing, events are constantly happening: the player is moving. An enemy is spawning. Etc. etc.
@@ -151,3 +153,46 @@ Finally, just like with our block event code, we need to actually register our b
     	itemRegisterEvent.getRegistry().register(basicBlockItem);
 ```
 
+Okay, we're just about done. Now it's time to actually add this new event handler to our mod.
+
+## Adding the event handler to our mod
+
+Open up the `ExampleMod` class and look for this part of the code, which starts around line 28:
+
+```java
+    public ExampleMod() {
+        // Register the setup method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        // Register the enqueueIMC method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+        // Register the processIMC method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        // Register the doClientStuff method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+
+        // Register ourselves for server and other game events we are interested in
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+```
+
+Remember constructors? This is the constructor for our mod class - it runs when Java first boots up our mod. The helpful comments here explain what's going on. Basically, this code is just registering the other methods in this class to run when certain events occur.
+
+Since we're registering a whole class and not just a method, this will look a bit different. But here's the only thing we'll have to add to get our block into Minecraft:
+
+```java
+        // Register our block event handler
+        FMLJavaModLoadingContext.get().getModEventBus().register(BasicBlockEventHandler.class);
+
+        // Register ourselves for server and other game events we are interested in
+        MinecraftForge.EVENT_BUS.register(this);
+```
+
+(The second comment + line should already be there; no need to add it.)
+
+Once that's done, use the `runClient` command to open up Minecraft. Start a creative mode world, and check the very bottom of your block inventory. If you see see a black and purple square, you did it - you added a block to Minecraft in your very first mod!
+
+Try placing your block in the world. It looks...glitchy, right? And pretty ugly?
+
+Well, that's because we still need to give our block a real name. We still need to give it a texture, so it looks like a real block. There's a lot more customization we need to do.
+
+So let's jump to lesson 4 to get started!
