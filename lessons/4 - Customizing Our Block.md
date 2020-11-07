@@ -139,3 +139,10 @@ Last step - we need to actually add that `coin` texture file.
 
 ## Adding our block's texture
 
+Alright, last step! We're going to actually add the texture file/image for our block. Create a `textures` folder next to `blockstates`, `lang` and `models`. Then create a `block` folder within that `textures` folder. Download [the coin block texture](https://github.com/KiaFarhang/minecraft-modding/blob/lesson-4/code/src/main/resources/assets/dojomod/textures/block/coin.png) we're using in this lesson from this project's GitHub page, and place the file in that new `block` folder.
+
+This should be the final step we need. Now, when you boot Minecraft, the block should still look glitchy in your inventory - because we didn't add a new image for it as an inventory item yet.
+
+But as soon as you place the block in the world...you should see the question block texture on the block!
+
+Congrats - we just customized our block to give it a real look.
