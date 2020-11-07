@@ -5,6 +5,6 @@ import net.minecraft.block.material.Material;
 
 public class BasicBlock extends Block{
     public BasicBlock () {
-		super(Block.Properties.create(Material.ROCK));
+		super(Block.Properties.create(Material.ROCK));		
 	}
 }
