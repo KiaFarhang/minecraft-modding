@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "down": "dojomod:block/coin",
+        "up": "dojomod:block/coin",
+        "north": "dojomod:block/coin",
+        "east": "dojomod:block/coin",
+        "south": "dojomod:block/coin",
+        "west": "dojomod:block/coin",
+        "particle": "block/lapis_block"
+    }
+}

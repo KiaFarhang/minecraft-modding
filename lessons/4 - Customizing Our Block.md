@@ -56,3 +56,86 @@ Before we get into what exactly we just did, boot up Minecraft and hover over yo
 
 ## So....What is this weird file?
 
+We just created a **JSON file**. JSON (pronounced like the name, "Jason", or "Jay-sahn") is a file format used a lot in programming. It uses something known as *key-value pairs* to track data.
+
+It might be easier to explain with an example. Let's say I wanted to keep track of some information about myself in JSON. I'm going to list my name, age and occupation. Here's what that would look like:
+
+```json
+{
+    "name": "Kia",
+    "age": 28,
+    "occupation": "Software Developer"
+}
+```
+
+There are a few rules to keep in mind about JSON:
+
+1. Objects always start with a `{` and end with a `}`.
+2. Property names (like name, age, occupation) are wrapped in quotation marks.
+3. Values (like "Kia", 28 and "Software Developer") _can_ be wrapped in quotes, but not always. For example, 28 is a number so it doesn't need to be quoted.
+4. There's always a `:` between the name of a property and its value for that object.
+5. You use commas (`,`) to separate each property - and each object, if there are more than one.
+
+JSON can get a bit more complicated, but this is just about all we need to know for our current modding. Let's take another look at the file we just created:
+
+```json
+{
+	"block.dojomod.basic_block_registry_name": "Basic Block"
+}
+```
+
+Really, this just associates the _property_ `block.dojomod.basic_block_registry_name` to the _value_ "Basic Block". Forge knows to look for that property because of the registry name we used in our Java code. Of course, you could change "Basic Block" to a number like `45` if you want - then if you booted the game your block would be named `45`.
+
+Okay - so we named our block. Next, let's change how it looks.
+
+## Creating a block state
+
+A block state is extra information about a Minecraft block, like how it behaves or looks. We're going to define a block state for our custom block using a JSON file so we can tell Minecraft what it should look like when we load it into the game.
+
+Create a new `blockstates` folder under `assets/{your mod ID}` - so this folder would be right _next to_ the `lang` folder we just created. We need to put a JSON file in the `blockstates` folder that matches the name of our block's registry name. Since mine was `basic_block_registry_name`, I created `basic_block_registry_name.json` - be sure to name yours appropriately.
+
+Here's what I put in that file:
+
+```json
+{
+    "variants": {
+        "": { "model": "dojomod:block/basic_block_model" }
+    }
+}
+```
+
+We won't spend a ton of time on this file. It basically says, "Hey Minecraft, the _model_ for this block state is under the dojomod's block folder, and its name is basic_block_model." Forge will read that and load the model file with that name in that folder to know what to make the block look like.
+
+Of course, note that I said my model was in the `dojomod`. You'll need to change that to match your mod ID if it's different.
+
+Well, we don't actually _have_ that file yet, do we? That's our next step.
+
+## Creating a block model
+
+Next, create a `models` folder next to the `lang` and `blockstates` folders. Create a `block` folder inside the `models` folder. Add a JSON file with a name matching whatever name you put in the blockstate folder - I created `basic_block_model.json`:
+
+```json
+{
+    "parent": "block/cube",
+    "textures": {
+        "down": "dojomod:block/coin",
+        "up": "dojomod:block/coin",
+        "north": "dojomod:block/coin",
+        "east": "dojomod:block/coin",
+        "south": "dojomod:block/coin",
+        "west": "dojomod:block/coin",
+        "particle": "block/lapis_block"
+    }
+}
+```
+
+The first part just says our model's "parent" (what it's based off) is the basic Minecraft cube shape. Next, we create a texture for each side of the block - that's the `down`, `up`, `north`, etc. part. Note that each side is pointing to `dojomod:block/coin`. That's telling Minecraft, "Go in the `dojomod`, look for the `textures/block` folder and load a file called `coin`." (Don't worry - we'll add that file in a second) Again, be sure to change `dojomod` to your mod's ID.
+
+The last line, `particle`, is just telling Minecraft what particle effect to use when we break the block apart. We're using the built-in Minecraft Lapiz Lazuli block's particle effect.
+
+You can probably guess here we could actually use _different_ textures for different sides of our block - say, give it one image on the east side and another on the west. We won't do that in this lesson, but it's definitely worth playing around with if you have time.
+
+Last step - we need to actually add that `coin` texture file.
+
+## Adding our block's texture
+

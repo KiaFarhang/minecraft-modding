@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "dojomod:block/basic_block_model" }
+    }
+}
